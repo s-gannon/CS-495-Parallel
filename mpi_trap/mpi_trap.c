@@ -44,7 +44,7 @@ int main(int argc, char** argv){
     if(my_rank == 0){
         printf("With n = %.0f trapezoids, our estimate\n", n);
         printf("of the integral from %.0f to %.0f = %.0f\n", a, b, total_int);
-        printf("Elapsed time = %f milliseconds \n", elapsed * 1000);
+        printf("Elapsed time = %f milliseconds \n", elapsed*1000);
     }
 
     MPI_Finalize();
@@ -81,11 +81,11 @@ double trap(double left_endpt, double right_endpt, int trap_count, double base_l
         x = left_endpt + (i * base_len);
         estimate += f(x);
     }
-    estimate = estimate * base_len;
+    estimate = estimate*base_len;
 
     return estimate;
 }
 
 double f(double x){
-    return x * x;
+    return x*x;
 }

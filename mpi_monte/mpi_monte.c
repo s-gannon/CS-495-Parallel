@@ -4,12 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-long toss (long num_process_tosses, int my_rank);
-void get_input(int argc, char** argv, int my_rank, long* totalNumTosses_p);
+long long toss (long long num_process_tosses, int my_rank);
+void get_input(int argc, char** argv, int my_rank, long long* totalNumTosses_p);
 
 int main(int argc, char** argv) {
     int my_rank, num_procs;
-    long total_num_tosses, num_process_tosses, process_number_in_circle, total_number_in_circle;
+    long long total_num_tosses, num_process_tosses, process_number_in_circle, total_number_in_circle;
     double start, finish, loc_elapsed, elapsed, pi_estimate;
     double PI_25 = 3.141592653589793238462643;         // Pi to 25 digits
 
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     MPI_Reduce(&process_number_in_circle, &total_number_in_circle, 1, MPI_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if(my_rank == 0){
-        pi_estimate = (4 * total_number_in_circle)/((double) total_num_tosses);
+        pi_estimate = (4 * total_number_in_circle)/((double)total_num_tosses);
         printf("Elapsed time = %f seconds \n", elapsed);
         printf("Pi is approximately %.16f, Error is %.16f\n", pi_estimate, fabs(pi_estimate - PI_25));
     }
@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
 }
 
 // Function gets input from command line for total_num_tosses
-void get_input(int argc, char** argv, int my_rank, long* totalNumTosses_p){
+void get_input(int argc, char** argv, int my_rank, long long* totalNumTosses_p){
     if(my_rank == 0){
         if(argc != 2){
             fprintf(stderr, "usage: mpirun -np <N> %s <number of tosses> \n", argv[0]);
@@ -62,15 +62,15 @@ void get_input(int argc, char** argv, int my_rank, long* totalNumTosses_p){
 }
 
 // Function implements Monte Carlo version of tossing darts at a board
-long toss (long processTosses, int my_rank){
-    long toss, numberInCircle = 0;
+long long toss (long long processTosses, int my_rank){
+    long long toss, numberInCircle = 0;
     double x, y;
     unsigned int seed = (unsigned)time(NULL);
     srand(seed + my_rank);
     for(toss = 0; toss < processTosses; toss++){
         x = rand_r(&seed)/(double)RAND_MAX;
         y = rand_r(&seed)/(double)RAND_MAX;
-        if(((x * x) + (y * y)) <= 1.0)
+        if(((x*x) + (y*y)) <= 1.0)
             numberInCircle++;
     }
     return numberInCircle;
