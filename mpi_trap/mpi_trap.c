@@ -4,7 +4,7 @@
 #include <mpi.h>
 
 const double a = 0;
-const double b = 2000000000;
+const double b = 20000000;
 
 double f(double x);
 void get_input(int argc, char** argv, int my_rank, double* n_p);
