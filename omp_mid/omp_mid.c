@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MIN(a,b) a < b ? a : b
+#define MIN(a,b) a < b ? a : b //macros kinda bad, careful
 
 double f(double x);
 
