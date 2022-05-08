@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MIN(a,b) a < b ? a : b //macros kinda bad, careful
+// #define MIN(a,b) a < b ? a : b //macros kinda bad, careful
 
 double f(double x);
 
@@ -18,10 +18,10 @@ int main(int argc, char** argv){
         b = atof(argv[3]);
     }
     else{
-        printf("Error: too few arguments\nusage: %s <number of intervals> <from (a)> <to (b)>\n", argv[0]);
+        printf("Error: too %s arguments\nusage: ./%s <number of intervals> <from (a)> <to (b)>\n", (argc > 4 ? "many" : "few"), argv[0]);
         return -1;
     }
-    threads = MIN(intervals, omp_get_max_threads());
+    // threads = MIN(intervals, omp_get_max_threads());
 
     dx = (b - a)/intervals;
     points = calloc(intervals + 1, sizeof(double));
@@ -38,7 +38,7 @@ int main(int argc, char** argv){
         for(int i = 0; i < intervals; i++){
             partial_area += f(((points[i + 1] - points[i])/2) + points[i]);
         }
-        printf("Partial area: %13f\n", partial_area);
+        printf("Partial area: %22f\n", partial_area);
         #pragma omp critical
         {
             area += partial_area;
@@ -52,5 +52,5 @@ int main(int argc, char** argv){
 }
 
 double f(double x) {
-    return sqrt(x);
+    return x*x;
 }
